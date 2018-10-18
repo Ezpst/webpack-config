@@ -1,8 +1,4 @@
----
-title: webpack打包项目
-tags: webpack,模板,打包
-grammar_cjkRuby: true
----
+
 
 ### 项目文件夹
 
@@ -27,34 +23,34 @@ grammar_cjkRuby: true
 
  2. 进入项目文件里面
 
-     `cd 项目名`
+  `cd 项目名`
      
 
  3. 生成package.json文件
 
-      `npm init`
+  `npm init`
       
 
  4. 安装webpack( 我装的是webpack4.0 )
 
-      `npm install webpack --save-dev`
+  `npm install webpack --save-dev`
       
 
  5. 生成node_modules目录
 
-      `npm install`
+  `npm install`
       
       
 
  6. 建立src文件夹，src文件下建scripts和styles文件，并在scripts下建立出口文件index.js
 
-     ` mkdir src`
+  ` mkdir src`
      
      
 
  7. 在scripts下创建a.js和b.js 
 
-      *在a.js和b.js中分别添加*
+    *在a.js和b.js中分别添加*
       
   ``` javascript
       export default function a() {
@@ -75,10 +71,10 @@ grammar_cjkRuby: true
 
 ``` javascript
     import a from './a';
-	import b from './b';
+	  import b from './b';
     
     a();
-	b();
+	  b();
 ```
 
 
@@ -156,7 +152,7 @@ grammar_cjkRuby: true
  13. css的loader安装，先下载打包css的插件`extract-text-webpack-plugin`（*在webpack4.0中使用“extract-text-webpack-plugin”之后，生产环境下报错，输入以下命令解决版本冲突问题`npm install extract-text-webpack-plugin@next`）
 
 ``` javascript
-	npm install extract-text-webpack-plugin --save-dev
+	  npm install extract-text-webpack-plugin --save-dev
     npm install style-loader css-loader --save-dev
     
     //css3前缀补全:
@@ -207,7 +203,7 @@ grammar_cjkRuby: true
  14. 图片的loader
 
 ``` javascript
-	npm install file-loader --save-dev
+	  npm install file-loader --save-dev
     npm install url-loader --save-dev
     
     //图片压缩
@@ -362,4 +358,4 @@ module.exports = {
 ```
 
 
-  [1]: ./images/file-directory.png "file-directory.png"
+  [1]: https://github.com/Ezpst/webpack-config/file-directory.png "file-directory.png"
