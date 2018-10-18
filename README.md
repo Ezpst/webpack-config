@@ -23,28 +23,28 @@
 
  2. 进入项目文件里面
 
-  `cd 项目名`
+    `cd 项目名`
      
 
  3. 生成package.json文件
 
-  `npm init`
+    `npm init`
       
 
  4. 安装webpack( 我装的是webpack4.0 )
 
-  `npm install webpack --save-dev`
+    `npm install webpack --save-dev`
       
 
  5. 生成node_modules目录
 
-  `npm install`
+    `npm install`
       
       
 
  6. 建立src文件夹，src文件下建scripts和styles文件，并在scripts下建立出口文件index.js
 
-  ` mkdir src`
+    ` mkdir src`
      
      
 
