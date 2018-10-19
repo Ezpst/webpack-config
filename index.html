@@ -7,9 +7,10 @@
   <title>Document</title>
 </head>
 <body>
+  <%= require('html-loader!./src/common/header.html') %>
   <!-- 添加注释 -->
   <p>hellow world!</p>
   <div class="bg-img"></div>
-  <img src="./src/images/02.jpg">
+  <img src="${require('./src/images/02.jpg')}">
 </body>
 </html>

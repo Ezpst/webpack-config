@@ -209,7 +209,7 @@
     //图片压缩
     npm install image-webpack-loader --save-dev
     //打包html文件中的图片
-    npm install html-withimg-loader --save-dev
+    npm install html-loader --save-dev
 ```
 
 ```javascript
@@ -239,12 +239,14 @@
           }
         ],
       },
-      { // html-withimg-loader打包html文件中的图片
+      { // html-loader打包html文件中的图片
         test: /\.html$/,
-        loader: 'html-withimg-loader',
+        loader: 'html-loader',
       }
 ```
 同时还要在`output`里添加`publicPath: './'`指明相对路径，在 `ExtractTextPlugin.extract`中添加`publicPath: '../'`，解决css背景图路径问题
+
+`要引用公共html文件，得注释全局html-loader在相应html文件中使用<%= require('html-loader!./src/common/header.html') %>，引用图片<img src="${require('./src/images/02.jpg')}">`
 
 
  15. 清除打包生成的重复文件，安装`clean-webpack-plugin`插件
@@ -273,6 +275,22 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');   //打包html插件
 const ExtractTextPlugin = require("extract-text-webpack-plugin");   //打包css的插件
 const CleanWebpackPlugin = require('clean-webpack-plugin'); //引入清除文件插件
 
+const getHtmlConfig = function(name, title) {
+  return {
+    filename: 'index.html',
+    template: 'index.html',
+    title: title,
+    inject: true,   //script标签的放置，为true默认放在body里
+    hash: true,
+    minify: {                     //html压缩
+      removeComments: true,      //移除注释
+      collapseWhitespace: true  //移除空格
+    },
+    //chunks: ['main','aaa'],      //生成html页面后的script文件的引入
+    excludeChunks: [name]   //排除没有用到的script文件，其他的都引进来，比chunks更好匹配
+  }
+}
+
 module.exports = {
   entry: {
     index: './src/scripts/index.js'
@@ -284,18 +302,19 @@ module.exports = {
     publicPath: './'
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'index.html',
-      inject: true,   //script标签的放置，为true默认放在body里
-      hash: true,
-      minify: {                     //html压缩
-        removeComments: true,      //移除注释
-        collapseWhitespace: true  //移除空格
-      },
-      //chunks: ['main','aaa'],      //生成html页面后的script文件的引入
-      excludeChunks: []   //排除没有用到的script文件，其他的都引进来，比chunks更好匹配
-    }),
+    // new HtmlWebpackPlugin({
+    //   filename: 'index.html',
+    //   template: 'index.html',
+    //   inject: true,   //script标签的放置，为true默认放在body里
+    //   hash: true,
+    //   minify: {                     //html压缩
+    //     removeComments: true,      //移除注释
+    //     collapseWhitespace: true  //移除空格
+    //   },
+    //   //chunks: ['main','aaa'],      //生成html页面后的script文件的引入
+    //   excludeChunks: []   //排除没有用到的script文件，其他的都引进来，比chunks更好匹配
+    // }),
+    new HtmlWebpackPlugin(getHtmlConfig('', '首页')),
 
     new ExtractTextPlugin({
       filename: 'styles/[name][chunkHash:5].css'
@@ -365,10 +384,14 @@ module.exports = {
           }
         ],
       },
-      { // html-withimg-loader打包html文件中的图片
-        test: /\.html$/,
-        loader: 'html-withimg-loader',
-      }
+
+      // 要引用公共html文件，得注释全局html-loader在相应html文件中使用<%= require('html-loader!./src/common/header.html') %>，引用图片<img src="${require('./src/images/02.jpg')}">
+      // { // html-loader打包html文件中的图片
+      //   test: /\.html$/,
+      //   use: [
+      //     {loader: 'html-loader'}
+      //   ]
+      // }
     ]
   }
 }
