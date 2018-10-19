@@ -247,6 +247,19 @@
 同时还要在`output`里添加`publicPath: './'`指明相对路径，在 `ExtractTextPlugin.extract`中添加`publicPath: '../'`，解决css背景图路径问题
 
 
+ 15. 清除打包生成的重复文件，安装`clean-webpack-plugin`插件
+
+``` bash
+	npm install clean-webpack-plugin --save-dev
+```
+
+```javascript
+	const CleanWebpackPlugin = require('clean-webpack-plugin');
+    new CleanWebpackPlugin(['dist'])   //实例化，参数为目录
+```
+
+
+
 ### 最终配置如下
 
 
@@ -258,6 +271,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');   //打包html插件
 const ExtractTextPlugin = require("extract-text-webpack-plugin");   //打包css的插件
+const CleanWebpackPlugin = require('clean-webpack-plugin'); //引入清除文件插件
 
 module.exports = {
   entry: {
@@ -274,6 +288,7 @@ module.exports = {
       filename: 'index.html',
       template: 'index.html',
       inject: true,   //script标签的放置，为true默认放在body里
+      hash: true,
       minify: {                     //html压缩
         removeComments: true,      //移除注释
         collapseWhitespace: true  //移除空格
@@ -284,7 +299,9 @@ module.exports = {
 
     new ExtractTextPlugin({
       filename: 'styles/[name][chunkHash:5].css'
-    })
+    }),
+
+    new CleanWebpackPlugin(['dist'])   //实例化，参数为目录
   ],
   module: {
     rules: [
