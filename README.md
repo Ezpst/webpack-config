@@ -398,4 +398,4 @@ module.exports = {
 ```
 
 
-  [1]: https://github.com/Ezpst/webpack-config/blob/master/file-directory.png "file-directory.png"
+  [1]: https://github.com/Ezpst/webpack-config/blob/dev/file-directory.png "file-directory.png"
