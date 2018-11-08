@@ -27,7 +27,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname,'./dist'),
     // 在打包文件后面加上hash值，解决因浏览器缓存而不能及时体现新的功能
-    filename: 'scripts/[name][chunkHash:5].js',    //数字5代表后面hash值长度
+    filename: 'scripts/[name].[chunkHash:5].js',    //数字5代表后面hash值长度
     publicPath: './'
   },
   plugins: [
@@ -46,7 +46,7 @@ module.exports = {
     new HtmlWebpackPlugin(getHtmlConfig('', '首页')),
 
     new ExtractTextPlugin({
-      filename: 'styles/[name][chunkHash:5].css'
+      filename: 'styles/[name].[chunkHash:5].css'
     }),
 
     new CleanWebpackPlugin(['dist'])   //实例化，参数为目录
