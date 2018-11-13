@@ -2,7 +2,7 @@
 const path = require('path');  // 路径处理模块
 const webpack = require('webpack');  // 这个插件不需要安装，是基于webpack的，需要引入webpack模块
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // 引入HtmlWebpackPlugin插件
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin  = require('mini-css-extract-plugin')
 
 module.exports = {
     entry: {
@@ -17,11 +17,16 @@ module.exports = {
         rules: [
             {
                 test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: ['css-loader', 'postcss-loader'],
-                    publicPath: '../'  // 给背景图片设置一个公共路径
-                })
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            publicPath: '../'   // 给背景图片设置一个公共路径
+                        }
+                    },
+                    'css-loader',
+                    'postcss-loader'
+                ]
             },
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -40,11 +45,20 @@ module.exports = {
                 ]
             },
             {
+                test: /\.pdf$/,
+                loader: 'url-loader',
+                options: {
+                    name: '[name].[hash:20].[ext]',
+                    limit: 10000,
+                    outputPath: './download'
+                }
+            },
+            {
                 test: /\.(scss|sass)$/,
                 use: ['style-loader', 'css-loader', 'sass-loader']  // 需要用的loader，一定是这个顺序，因为调用loader是从右往左编译的
             },
             {  // jsx配置
-                test: /(\.jsx|\.js)$/,   
+                test: /\.(jsx|js)$/,
                 use: {
                     loader: "babel-loader"
                 },
@@ -63,6 +77,9 @@ module.exports = {
             // excludeChunks: ['./assets/js/two.js']
         }),
         new webpack.HotModuleReplacementPlugin(),
-        new ExtractTextPlugin('./assets/css/index.[hash:20].css')
+        new MiniCssExtractPlugin({
+            filename: './assets/css/index.[contenthash:20].css',
+            chunkFilename: './assets/css/index.[contenthash:20].css'
+        })
     ]
 }
