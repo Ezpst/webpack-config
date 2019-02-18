@@ -25,16 +25,17 @@ const getHtmlConfig = (packageNameAndPath, outputNameAndPath, scriptNameList) =>
 module.exports = {
   entry: {
     'assets/js/vendor': ['jquery', 'bootstrap'],
+    'assets/js/bootstrap': path.resolve(__dirname, './src/assets/js/bootstrap.js'),
     'assets/js/index': path.resolve(__dirname, './src/assets/js/index.js'),
-    'assets/js/two': path.resolve(__dirname, './src/assets/js/two.js')
+    'assets/js/two': path.resolve(__dirname, './src/assets/js/two.js'),
   },
   output: {
     path: path.join(__dirname, "/dist"), //打包后的文件存放的地方
     filename: "[name].[hash:20].js" //打包后输出文件的文件名
   },
   plugins: [
-    new HtmlWebpackPlugin(getHtmlConfig("/src/index.html", "/dist/index.html", ['assets/js/two'])),
-    new HtmlWebpackPlugin(getHtmlConfig("/src/pages/home.html", "/dist/pages/home.html", ['assets/js/index'])),
+    new HtmlWebpackPlugin(getHtmlConfig("/src/index.html", "/dist/index.html", ['assets/js/two','assets/js/collapse'])),
+    new HtmlWebpackPlugin(getHtmlConfig("/src/pages/home.html", "/dist/pages/home.html", ['assets/js/index','assets/js/collapse'])),
 
     new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
@@ -94,7 +95,7 @@ module.exports = {
           test: /\.pdf$/,
           loader: 'url-loader',
           options: {
-            name: '[name].[hash:8].[ext]',
+            name: '[name].[ext]',
             limit: 10000,
             outputPath: './download',
             publicPath: '../download'

@@ -7,6 +7,7 @@ body {
     width: 200px;
     margin-top: 50px;
     transform: translateX(20px); /* 这个属性会产生前缀 */
+    font-size: 20px;
 }
 
 .a{
