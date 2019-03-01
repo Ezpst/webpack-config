@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>webpack config</title>
 </head>
 <body>
   <nav class="navbar navbar-default">
@@ -17,7 +17,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="./pages/home.html">Brand</a>
+        <a class="navbar-brand" href="/views/home/index.html">Brand</a>
       </div>
   
       <!-- Collect the nav links, forms, and other content for toggling -->
@@ -61,7 +61,7 @@
     </div><!-- /.container-fluid -->
   </nav>
 
-  <img src="${require('./assets/images/about_us_bgimg.png')}">
-  <a href="${require('./download/IAUSS-Scholarship-Application-Form.pdf')}" target="_blank">pdf文件</a>
+  <img src=<%= require("../../assets/images/about_us_bgimg.png")%> />
+  <a href="${require('../../download/IAUSS-Scholarship-Application-Form.pdf')}" target="_blank">pdf文件</a>
 </body>
 </html>

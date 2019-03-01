@@ -5,7 +5,7 @@ const common = require('./webpack.common.js'); // 引入webpack.common.js
 module.exports = merge(common, {   // 将webpack.common.js合并到当前文件
   devServer: {
     contentBase: "./dist",   // 本地服务器所加载文件的目录
-    port: "4040",  // 设置端口号
+    port: "9000",  // 设置端口号
     inline: true,  // 文件修改后实时刷新
     historyApiFallback: true, //不跳转
   }

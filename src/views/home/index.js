@@ -1,7 +1,7 @@
-import '../css/style.css';  // 导入css
-import '../css/blue.scss'; // 导入scss
+import './style.css';  // 导入css
+import './blue.scss'; // 导入scss
 
-const hello = require('./hello');
+const hello = require('../../assets/js/hello');
 document.querySelector('#root').appendChild(hello());
 
 function two() {
