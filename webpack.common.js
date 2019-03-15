@@ -50,6 +50,11 @@ module.exports = {
     path: path.join(__dirname, "/dist"), //打包后的文件存放的地方
     filename: "./assets/js/[name].[hash:20].js" //打包后输出文件的文件名
   },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src')
+    }
+  },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
@@ -106,14 +111,8 @@ module.exports = {
         ]
       },
       {
-        test: /\.pdf$/,
-        loader: 'url-loader',
-        options: {
-          name: '[name].[ext]',
-          limit: 10000,
-          outputPath: './download',
-          publicPath: '../../download'
-        }
+        test: /\.html$/,
+        use: ['html-withimg-loader']
       },
       { // bootstrap font-awesome
         test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
