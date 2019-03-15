@@ -120,7 +120,7 @@ module.exports = {
         query: {
           limit: 10000,
           mimetype: 'application/font-woff',
-          name: 'font/bootstrap/[name]_[hash:20].[ext]'   // 字体文件放置目录
+          name: 'public/fonts/[name]_[hash:20].[ext]'   // 字体文件放置目录
         }
       },
       { // bootstrap
@@ -129,7 +129,7 @@ module.exports = {
         query: {
           limit: 10000,
           mimetype: 'application/octet-stream',
-          name: 'font/bootstrap/[name]_[hash:20].[ext]'
+          name: 'public/fonts/[name]_[hash:20].[ext]'
         }
       },
       { // bootstrap
@@ -137,7 +137,7 @@ module.exports = {
         loader: 'url-loader',
         query: {
           limit: 10000,
-          name: 'font/bootstrap/[name]_[hash:20].[ext]'
+          name: 'public/fonts/[name]_[hash:20].[ext]'
         }
       },
       { // bootstrap
@@ -146,7 +146,7 @@ module.exports = {
         query: {
           limit: 10000,
           mimetype: 'application/image/svg+xml',
-          name: 'font/bootstrap/[name]_[hash:20].[ext]'
+          name: 'public/fonts/[name]_[hash:20].[ext]'
         }
       },
       { // font-awesome
@@ -154,7 +154,7 @@ module.exports = {
         loader: "url-loader",
         query: {
           limit: 10000,
-          name: 'font/bootstrap/[name]_[hash:20].[ext]'
+          name: 'public/fonts/[name]_[hash:20].[ext]'
         }
       }
     ]
