@@ -1,8 +1,8 @@
 // webpack.prod.js
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
-const CleanWebpackPlugin = require('clean-webpack-plugin'); // 引入CleanWebpackPlugin插件
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');//压缩css插件
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');  //压缩css插件
 
 module.exports = merge(common, {   // 将webpack.common.js合并到当前文件
   devtool: '#source-map',  // 会生成对于调试的完整的.map文件，但同时也会减慢打包速度
