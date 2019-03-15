@@ -1,43 +1,56 @@
 // webpack.common.js
 const webpack = require('webpack');
+const glob = require('glob');
 const path = require('path'); // 路径处理模块
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // 引入HtmlWebpackPlugin插件
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');  // 打包css插件(webpack4.x)
 const isProd = process.env.NODE_ENV === 'production';
 
-/**
- * HtmlWebpackPlugin封装
- * @param {*} packageNameAndPath   指定要打包的html路径和文件名
- * @param {*} outputNameAndPath    指定输出路径和文件名
- * @param {Array} scriptNameList   排除没有用到的script文件
- */
-const getHtmlConfig = (packageNameAndPath, outputNameAndPath, scriptNameList) => {
+// 获取html-webpack-plugin参数的方法
+const getHtmlConfig = function (name, chunks) {
   return {
-    template: path.join(__dirname, packageNameAndPath),
-    filename: path.join(__dirname, outputNameAndPath),
-    minify: {
-      removeComments: true, // 移除注释
-      collapseWhitespace: true // 移除空格
+    template: `./src/views/${name}/index.html`,   // 指定要打包的html路径和文件名
+    filename: `${name == 'index' ? `${name}.html` : `./views/${name}.html`}`,   // 指定输出路径和文件名
+    inject: true,
+    chunks: chunks,
+    minify: process.env.NODE_ENV === "development" ? false : {
+      removeComments: true, //移除HTML中的注释
+      collapseWhitespace: true, //折叠空白区域 也就是压缩代码
+      removeAttributeQuotes: true, //去除属性引用
     },
-    excludeChunks: scriptNameList   //排除没有用到的script文件，其他的都引进来，比chunks更好匹配
-  }
+  };
+};
+
+function getEntry() {
+  let entry = {};
+  //读取src目录所有page入口
+  glob.sync('./src/views/**/*.js')
+  .forEach(function (name) {
+    let start = name.indexOf('src/') + 4,
+        end = name.length - 3;
+    let eArr = [];
+    let n = name.slice(start, end);
+    n = n.slice(0, n.lastIndexOf('/')); //保存各个组件的入口 
+    n = n.split('/')[1];
+    eArr.push(name);
+    entry[n] = eArr;
+  });
+  return entry;
+};
+
+// 引入第三方文件
+const vendorEntry = {
+  'vendor': ['jquery', 'bootstrap'],
+  'common': path.resolve(__dirname, './src/assets/js/common.js')
 }
 
 module.exports = {
-  entry: {
-    'assets/js/vendor': ['jquery', 'bootstrap'],
-    'assets/js/bootstrap': path.resolve(__dirname, './src/assets/js/bootstrap.js'),
-    'assets/js/index': path.resolve(__dirname, './src/views/index/index.js'),
-    'views/home/index': path.resolve(__dirname, './src/views/home/index.js'),
-  },
+  entry: {...vendorEntry, ...getEntry()},
   output: {
     path: path.join(__dirname, "/dist"), //打包后的文件存放的地方
-    filename: "[name].[hash:20].js" //打包后输出文件的文件名
+    filename: "./assets/js/[name].[hash:20].js" //打包后输出文件的文件名
   },
   plugins: [
-    new HtmlWebpackPlugin(getHtmlConfig("./src/views/index/index.html", "./dist/index.html", ['views/home/index'])),
-    new HtmlWebpackPlugin(getHtmlConfig("./src/views/home/index.html", "/dist/views/home/index.html", ['assets/js/index'])),
-
     new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
       filename: 'assets/css/[contenthash:20].css',
@@ -148,3 +161,19 @@ module.exports = {
     ]
   }
 }
+
+//配置页面
+let entryObj = getEntry();
+let htmlArray = [];
+Object.keys(entryObj).forEach(element => {
+  htmlArray.push({
+    _html: element,
+    title: '',
+    chunks: ['vendor','common', element]
+  })
+})
+
+// //自动生成html模板
+htmlArray.forEach((element) => {
+  module.exports.plugins.push(new HtmlWebpackPlugin(getHtmlConfig(element._html, element.chunks)));
+})
