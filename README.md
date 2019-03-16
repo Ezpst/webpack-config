@@ -24,11 +24,11 @@ npm run build
 
  - `/src` 项目所在文件
  
-    |_ `/assets` js、css、图片等文件
- 
-    |_ `/common` 公共的html文件
- 
-    |_ `/views` 页面文件
+      |_ `/assets` js、css、图片等文件
+
+      |_ `/common` 公共的html文件
+
+      |_ `/views` 页面文件
 
  
 
