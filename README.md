@@ -32,5 +32,30 @@ npm run build
 
  
 
-`注意：`由于文件结构与打包后的结构不一致，因此在设置页面跳转路径时使用绝对路径，例如：`/views/home.html`
+`注意：`
+
+ 1. 由于文件结构与打包后的结构不一致，因此在设置页面跳转路径时使用绝对路径，例如：`/views/home.html`
+ 2. 每个页面文件夹必须有`.js`文件，否则打包不会生成对应页面文件
+
+``` 
+function getEntry() {
+  let entry = {};
+  //读取src目录所有page入口
+  glob.sync('./src/views/**/*.js')
+  .forEach(function (name) {
+    let start = name.indexOf('src/') + 4,
+        end = name.length - 3;
+    let eArr = [];
+    let n = name.slice(start, end);
+    n = n.slice(0, n.lastIndexOf('/')); //保存各个组件的入口 
+    n = n.split('/')[1];
+    eArr.push(name);
+    entry[n] = eArr;
+  });
+  return entry;
+};
+```
+
+
+
 
