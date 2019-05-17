@@ -4,7 +4,7 @@ const glob = require('glob');
 const path = require('path'); // 路径处理模块
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // 引入HtmlWebpackPlugin插件
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');  // 打包css插件(webpack4.x)
-const isProd = process.env.NODE_ENV === 'production';
+const isDev = process.env.NODE_ENV === "development";
 
 // 获取html-webpack-plugin参数的方法
 const getHtmlConfig = function (name, chunks) {
@@ -13,7 +13,7 @@ const getHtmlConfig = function (name, chunks) {
     filename: `${name == 'index' ? `${name}.html` : `./views/${name}.html`}`,   // 指定输出路径和文件名
     inject: true,
     chunks: chunks,
-    minify: process.env.NODE_ENV === "development" ? false : {
+    minify: isDev ? false : {
       removeComments: true, //移除HTML中的注释
       collapseWhitespace: true, //折叠空白区域 也就是压缩代码
       removeAttributeQuotes: true, //去除属性引用
@@ -99,14 +99,11 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              name: '[name].[hash:8].[ext]',
+              name: '[name].[contenthash:8].[ext]',
               limit: 10000, // 限制只有小于10kb的图片才转为base64
               outputPath: './assets/images',  // 设置打包后图片存放的文件夹名称
               publicPath: '../../assets/images'  // 静态资源 (图片等) 的发布地址
             }
-          },
-          { //压缩图片要在file-loader之后使用
-            loader: 'image-webpack-loader'
           }
         ]
       },
@@ -120,7 +117,7 @@ module.exports = {
         query: {
           limit: 10000,
           mimetype: 'application/font-woff',
-          name: 'public/fonts/[name]_[hash:20].[ext]'   // 字体文件放置目录
+          name: 'public/fonts/[name]_[contenthash:20].[ext]'   // 字体文件放置目录
         }
       },
       { // bootstrap
@@ -129,7 +126,7 @@ module.exports = {
         query: {
           limit: 10000,
           mimetype: 'application/octet-stream',
-          name: 'public/fonts/[name]_[hash:20].[ext]'
+          name: 'public/fonts/[name]_[contenthash:20].[ext]'
         }
       },
       { // bootstrap
@@ -137,7 +134,7 @@ module.exports = {
         loader: 'url-loader',
         query: {
           limit: 10000,
-          name: 'public/fonts/[name]_[hash:20].[ext]'
+          name: 'public/fonts/[name]_[contenthash:20].[ext]'
         }
       },
       { // bootstrap
@@ -146,7 +143,7 @@ module.exports = {
         query: {
           limit: 10000,
           mimetype: 'application/image/svg+xml',
-          name: 'public/fonts/[name]_[hash:20].[ext]'
+          name: 'public/fonts/[name]_[contenthash:20].[ext]'
         }
       },
       { // font-awesome
@@ -154,7 +151,7 @@ module.exports = {
         loader: "url-loader",
         query: {
           limit: 10000,
-          name: 'public/fonts/[name]_[hash:20].[ext]'
+          name: 'public/fonts/[name]_[contenthash:20].[ext]'
         }
       }
     ]

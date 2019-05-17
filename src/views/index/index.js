@@ -1,4 +1,5 @@
 //index.js 
+import './index.css';
 
 const arr1 = [
   {coupon_id: 21, amount: 350, name: "顾问专属优惠", expire_time: "2019-08-20T23:59:00"},

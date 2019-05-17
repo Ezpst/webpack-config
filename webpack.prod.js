@@ -9,7 +9,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = merge(common, {   // 将webpack.common.js合并到当前文件
   devtool: '#source-map',  // 会生成对于调试的完整的.map文件，但同时也会减慢打包速度
   plugins: [
-    new CleanWebpackPlugin(['dist']),  // 所要清理的文件夹名称
+    new CleanWebpackPlugin(),  // 所要清理的文件夹名称
     new OptimizeCssAssetsPlugin({
       cssProcessor: require('cssnano'), //引入cssnano配置压缩选项
       cssProcessorOptions: { 
